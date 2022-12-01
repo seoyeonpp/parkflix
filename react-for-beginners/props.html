@@ -7,29 +7,31 @@
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script type="text/babel">
     // props는 object이기때문에 {} 안에 property 를 적을 수 있음
-    function Btn({ banana, big }) {
-        console.log( banana, big )
+    function Btn({ text, changeValue }) {
+        console.log(text + 'was rendered');
         return (
             <button
+                onClick={changeValue}
                 style={{
                 backgroundColor: 'tomato',
                 color: 'white',
                 padding: '10px 20px',
                 border: 0,
                 borderRadius: '10px',
-                fontSize: big ? 24 : 16
                 }}
             >
-                {banana}
+                {text}
             </button>
         );
     }
-
+    const MemorizedBtn = React.memo(Btn); // 랜더링 제어(변경되는 컴포넌트만 리랜더링)
     function App ()  {
+        const [value, setValue] = React.useState("Save Changes");
+        const changeValue = () => setValue("Revert Changes");
         return(
             <div>
-                <Btn banana="Save Changes" big={true} />
-                <Btn banana="Continue" big={false} />
+                <MemorizedBtn text={value} changeValue={changeValue}/>
+                <MemorizedBtn text="Continue" />
             </div>
         );
     }
