@@ -48,7 +48,31 @@
     }
 
     function KmToMiles () {
-        return <h3>Km to Miles</h3>;
+        const [amount, setAmount] = React.useState(0);
+        const [flag, setFlag] = React.useState(true);
+        const checkVal = (e) => {
+            setAmount(e.target.value);
+        }
+        const reset = () => {
+            setAmount(0);
+        }
+        const onReverse = () => {
+            reset();
+            setFlag((current) => !current);
+        }
+        return (
+            <div>
+                <div>
+                    <label htmlFor="km">Km</label>
+                    <input id="km" type="number" value={flag ? amount : amount * 1.609} onChange={checkVal} disabled={!flag}/>
+                </div>
+                <div>
+                    <label htmlFor="miles">Miles</label>
+                    <input id="miles" type="number" value={flag ? amount / 1.609 : amount} onChange={checkVal} disabled={flag}/>
+                </div>
+                <button onClick={onReverse}>reverse</button>
+            </div>
+        );
     }
     function App ()  {
         const [index, setIndex] = React.useState("x");
